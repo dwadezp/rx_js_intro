@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rx Tutorial</title>
+
+</head>
+<body>
+  <input type="text" name="inputName" id="input"/>
+  <div id="result"></div>
+  <br/>
+  <button id="startButton">Click on me!</button>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/4.1.0/rx.all.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.js"></script>
+  <script type="text/javascript">
+  'use strict';
+  const $startButton = $('#startButton'),
+        $result = $('#result');
+  $startButton.click(function() {
+    $.get("/api", function(resp, status){
+      const firstElement = _.chain(resp.data)
+        .sortBy('age')
+        .map(function(o) {
+          return o.user + ' is ' + o.age;
+        })
+        .head()
+        .value();
+        $('<b>' + firstElement + '</b>').appendTo($result);
+
+    });
+  });
+  </script>
+</body>
+
+</html>
